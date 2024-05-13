@@ -21,8 +21,8 @@ const server = http.createServer((req, res) => {
             nome: 'Rodrigo Argenton Barbosa',
             email: 'rodrigolk4321@gmail.com',
         })
-
-        return res.end('Usuário criado...')
+        // retorna o status code 201 (created)
+        return res.writeHead(201).end()
     }
     if(method === 'PUT' && url === '/users'){
         return res.end('Edição de usuários concluída...')
@@ -33,7 +33,8 @@ const server = http.createServer((req, res) => {
     if(method === 'DELETE' && url === '/users'){
         return res.end('Usuário deletado...')
     }
-    return res.end('Hello World')
+    //retorna o status code 404 (not found)
+    return res.writeHead(404).end()
 })
 
 //passando a porta
