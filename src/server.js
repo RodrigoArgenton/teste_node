@@ -1,9 +1,12 @@
 import http from 'node:http'
 import url from 'url'
-import { MongoClient } from 'mongodb';
+import { MongoClient } from 'mongodb'
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // conexão com o banco de dados
-const uri = 'mongodb+srv://rodrigolk4321:R2RvL2gNAmw4I1uj@users.qzojpzs.mongodb.net/?retryWrites=true&w=majority&appName=users'
+const uri = process.env.URI
 const client = new MongoClient(uri)
 const database = client.db('database')
 const collection = database.collection('users')
@@ -50,7 +53,6 @@ const server = http.createServer(async(req, res) => {
 async function searchDB (){
     try{
         const result = await collection.find({}).toArray()
-        console.log(result)
         return result
     }catch(err){
         console.error('Erro ao buscar dados: ', err)
