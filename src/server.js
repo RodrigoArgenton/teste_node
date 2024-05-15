@@ -1,36 +1,43 @@
 import http from 'node:http'
+import url from 'url'
+import { randomUUID }  from 'node:crypto';
 
 // const que salva, temporariamente, os dados da aplicação
 const users = []
 
 // criando o servidor
 const server = http.createServer((req, res) => {
-    const { method, url } = req
-
-    if(method === 'GET' && url === '/users'){
+    const method = req.method
+    const parsedUrl = url.parse(req.url, true)
+    const { query, pathname } = parsedUrl
+    
+    if(method === 'GET' && pathname === '/users'){
         return res
             // Com essa função, o valor retornado fica em formato JSON
             .setHeader('Content-type', 'application/json')
             // Transforma um array em JSON
             .end(JSON.stringify(users))
     }
-    if(method === 'POST' && url === '/users'){
+    if(method === 'POST' && pathname === '/users'){
         // Metódo para enviar informações para a memoria
+        const name = query.name
+        const email = query.email
+        const id = randomUUID()
         users.push({
-            id: 1,
-            nome: 'Rodrigo Argenton Barbosa',
-            email: 'rodrigolk4321@gmail.com',
+            id,
+            name,
+            email
         })
         // retorna o status code 201 (created)
         return res.writeHead(201).end()
     }
-    if(method === 'PUT' && url === '/users'){
+    if(method === 'PUT' && pathname === '/users'){
         return res.end('Edição de usuários concluída...')
     }
-    if(method === 'PATCH' && url === '/users'){
+    if(method === 'PATCH' && pathname === '/users'){
         return res.end('Termos editado...')
     }
-    if(method === 'DELETE' && url === '/users'){
+    if(method === 'DELETE' && pathname === '/users'){
         return res.end('Usuário deletado...')
     }
     //retorna o status code 404 (not found)
