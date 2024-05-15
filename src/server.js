@@ -19,10 +19,14 @@ const server = http.createServer((req, res) => {
             .end(JSON.stringify(users))
     }
     if(method === 'POST' && pathname === '/users'){
-        // Metódo para enviar informações para a memoria
         const name = query.name
         const email = query.email
         const id = randomUUID()
+        //validação de dados enviados
+        if(name || email){
+            return res.writeHead(400).end("Um ou mais campos, não foram preenchidos. Campo obrigatórios: name e email.")
+        }
+        // Metódo para enviar informações para a memoria
         users.push({
             id,
             name,
