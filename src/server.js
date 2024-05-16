@@ -6,10 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // conexão com o banco de dados
-const uri = process.env.URI
-const client = new MongoClient(uri)
-const database = client.db('database')
-const collection = database.collection('users')
+
 
 // criando o servidor
 const server = http.createServer(async(req, res) => {
@@ -52,6 +49,7 @@ const server = http.createServer(async(req, res) => {
 
 async function searchDB (){
     try{
+        const collection = connectionDB()
         const result = await collection.find({}).toArray()
         return result
     }catch(err){
@@ -61,6 +59,7 @@ async function searchDB (){
 }
 async function insertDB(name, email){
     try{
+        const collection = connectionDB()
         const data = {
             name,
             email
@@ -69,6 +68,18 @@ async function insertDB(name, email){
     }catch{
         console.error('Erro ao inserir documento:', err)
         throw err
+    }
+}
+function connectionDB(){
+    try{
+        const uri = process.env.URI
+        const client = new MongoClient(uri)
+        const database = client.db('database')
+        const collection = database.collection('users')
+        return collection
+    }catch(err){
+        console.log('Não foi possivel conectar devido ao erro: ', err)
+        throw(err)
     }
 }
 //passando a porta
