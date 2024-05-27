@@ -1,6 +1,6 @@
 import express from 'express';
 import { searchDB, insertDB } from '../database/dbUser.js';
-import validationUser from '../validator/controllers.js'; // Ajuste o caminho conforme necessário
+import validationUser from '../validator/controllers.js';
 
 const app = express();
 // Middleware para analisar o corpo das requisições como JSON
