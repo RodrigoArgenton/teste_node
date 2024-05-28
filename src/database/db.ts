@@ -6,6 +6,7 @@ dotenv.config();
 const URL = process.env.URL;
 const client = new MongoClient(String(URL))
 
+//coneão com o db
 async function connectDB() {
     try {
         await client.connect();
@@ -20,8 +21,22 @@ async function connectDB() {
         throw new Error('Erro ao conectar no banco de dados')
     }
 }
-export default async function getUsers() {
+//listagem de usuários
+export async function getUsersDB() {
     const collection = await connectDB();
     const allUsers = await collection.find().toArray();
     return allUsers;
+}
+//postagem de novos usuários
+export async function postUsersDB(name:string, email:string) {
+    try {
+        const collection = await connectDB();
+        const data = {
+            name,
+            email
+        }
+        await collection.insertOne(data)
+    } catch (err) {
+        console.log(err)
+    }
 }
