@@ -1,13 +1,13 @@
-import express, {Request, Response} from "express";
-import { getUsers, postUsers } from "./controllers/user";
+import express, {Request, Response} from "express"
+import { getUsers, postUsers } from "./controllers/user"
 
 
-const app = express();
+const app = express()
 
 // middleware para processar requisições JSON
-app.use(express.json());
+app.use(express.json())
 
-app.get('/', getUsers);
+app.get('/', getUsers)
 app.post('/', postUsers)
 
 app.listen(3333, () =>{
